@@ -9,7 +9,8 @@ using System.Collections.Specialized;
 
 namespace Vanilla {
 	/// <summary>
-	/// Summary description for jsConnect
+	/// This object contains the client code for Vanilla jsConnect signle-sign-on.
+	/// Version 1.0
 	/// </summary>
 	public class jsConnect {
 		protected static IDictionary Error(string code, string message) {
