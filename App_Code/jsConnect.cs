@@ -155,7 +155,7 @@ namespace Vanilla {
 			HttpResponse response = HttpContext.Current.Response;
 
 			DateTime epoch = new DateTime(1970, 1, 1);
-			TimeSpan ts = new TimeSpan(DateTime.UtcNow.Ticks - epoch.Ticks);
+			TimeSpan ts = (DateTime.UtcNow - epoch);
 			return Convert.ToInt32(ts.TotalSeconds);
 		}
 	}
