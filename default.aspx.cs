@@ -41,10 +41,12 @@ public partial class _Default : System.Web.UI.Page {
 		Response.Write(js);
 		Response.End();
 		
+		} catch (System.Threading.ThreadAbortException) {
+			// Do nothing. This is Response.End()
 		} catch (Exception ex) {
 			SortedList exCollection = new SortedList();
-			exCollection['error'] = 'exception';
-			exCollection['message'] = ex.Message;
+			exCollection["error"] = "exception";
+			exCollection["message"] = ex.Message;
 			
 			string exString = jsConnect.JsonEncode(exCollection);
 			Response.Write(exString);
