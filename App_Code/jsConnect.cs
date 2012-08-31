@@ -21,7 +21,6 @@ namespace Vanilla {
 			return result;
 		}
 
-
 		public static string GetJsConnectString(IDictionary user, NameValueCollection request, string clientID, string secret, bool secure) {
 			if(request == null)
 				request = System.Web.HttpContext.Current.Request.QueryString;
@@ -102,6 +101,13 @@ namespace Vanilla {
 				string key = Convert.ToString(entry.Key);
 				string value = Convert.ToString(entry.Value);
 
+				if(key.IndexOf("\\") >= 0) {
+					throw new Exception("One of your keys contains a backslash which is not supported.");
+				}
+				if(value.IndexOf("\\") >= 0) {
+					throw new Exception(String.Format("The {0} contains a backslash which is not supported.", key));
+				}
+
 				result.AppendFormat("\"{0}\": \"{1}\"", key.Replace("\"", "\\\""), value.Replace("\"", "\\\""));
 			}
 
@@ -127,6 +133,10 @@ namespace Vanilla {
 			}
 		}
 
+		public static string StrUpper(System.Text.RegularExpressions.Match m) {
+			return m.ToString().ToUpper();
+		}
+
 		public static string SignJsConnect(IDictionary data, string clientID, string secret, bool setData) {
 			// Generate a sorted list of the keys.
 			string[] keys = new string[data.Count];
@@ -135,10 +145,15 @@ namespace Vanilla {
 
 			// Generate the string to sign.
 			StringBuilder sigStr = new StringBuilder();
+			System.Text.RegularExpressions.MatchEvaluator me = new System.Text.RegularExpressions.MatchEvaluator(jsConnect.StrUpper);
 			foreach(string key in keys) {
 				if(sigStr.Length > 0)
 					sigStr.Append("&");
-				sigStr.AppendFormat("{0}={1}", HttpUtility.UrlEncode(key.ToLower()), HttpUtility.UrlEncode(data[key].ToString()));
+
+				string encValue = HttpUtility.UrlEncode(data[key].ToString());
+				encValue = System.Text.RegularExpressions.Regex.Replace(encValue, "%[0-9a-f][0-9a-f]", me);
+
+				sigStr.AppendFormat("{0}={1}", HttpUtility.UrlEncode(key.ToLower()), encValue);
 			}
 
 			// MD5 sign the string with the secret.
@@ -155,8 +170,8 @@ namespace Vanilla {
 			HttpResponse response = HttpContext.Current.Response;
 
 			DateTime epoch = new DateTime(1970, 1, 1);
-			TimeSpan ts = (DateTime.UtcNow - epoch);
-			return Convert.ToInt32(ts.TotalSeconds);
+			TimeSpan span = (DateTime.UtcNow - epoch);
+			return (int)span.TotalSeconds;
 		}
 	}
 }
