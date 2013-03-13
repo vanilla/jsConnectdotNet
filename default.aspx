@@ -1,15 +1,13 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  CodeFile="default.aspx.cs" Inherits="_Default" %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<%@ Page Language="C#" Inherits="jsConnectdotNet.Default" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
 <head runat="server">
-    <title>Vanilla jsConnect Test Page</title>
+	<title>jsConnect</title>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-    </div>
-    </form>
+<h1>Something is wrong.</h1>
+<p>
+If you see this page then something is wrong.
+</p>
 </body>
 </html>
