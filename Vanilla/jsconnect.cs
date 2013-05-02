@@ -10,9 +10,11 @@ using System.Collections.Specialized;
 namespace Vanilla {
 	/// <summary>
 	/// This object contains the client code for Vanilla jsConnect signle-sign-on.
-	/// Version 1.0
+	/// Version 1.0.1
 	/// </summary>
 	public class jsConnect {
+		public static bool Debug = false;
+
 		protected static IDictionary Error(string code, string message) {
 			IDictionary result = new SortedList();
 			result["error"] = code;
@@ -165,6 +167,9 @@ namespace Vanilla {
 			if(setData) {
 				data["clientid"] = clientID;
 				data["signature"] = signature;
+
+				if (Debug)
+					data["sigStr"] = sigStr.ToString();
 			}
 			return signature;
 		}

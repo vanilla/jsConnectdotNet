@@ -34,6 +34,7 @@ namespace jsConnectdotNet
 				// 4. Generate the jsConnect string.
 				bool secure = false; // this should be true unless you are testing
 				string hash = "sha256"; // values supported are md5, sha1, sha256
+				// Vanilla.jsConnect.Debug = true; // turn on debug to help troubleshoot some issues.
 				string js = Vanilla.jsConnect.GetJsConnectString(user, Request.QueryString, clientID, secret, secure, hash);
 				
 				Response.Write(js);
