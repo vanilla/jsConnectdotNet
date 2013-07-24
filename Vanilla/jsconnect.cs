@@ -10,7 +10,7 @@ using System.Collections.Specialized;
 namespace Vanilla {
 	/// <summary>
 	/// This object contains the client code for Vanilla jsConnect signle-sign-on.
-	/// Version 1.0.1
+	/// Version 1.0.2
 	/// </summary>
 	public class jsConnect {
 		public static bool Debug = false;
@@ -150,18 +150,16 @@ namespace Vanilla {
 			
 			// Generate the string to sign.
 			StringBuilder sigStr = new StringBuilder();
-			System.Text.RegularExpressions.MatchEvaluator me = new System.Text.RegularExpressions.MatchEvaluator(jsConnect.StrUpper);
 			foreach(string key in keys) {
 				if(sigStr.Length > 0)
 					sigStr.Append("&");
 				
-				string encValue = HttpUtility.UrlEncode(data[key].ToString());
-				encValue = System.Text.RegularExpressions.Regex.Replace(encValue, "%[0-9a-f][0-9a-f]", me);
+				string encValue = jsConnect.UrlEncode(data[key].ToString());
 				
-				sigStr.AppendFormat("{0}={1}", HttpUtility.UrlEncode(key.ToLower()), encValue);
+				sigStr.AppendFormat("{0}={1}", jsConnect.UrlEncode(key.ToLower()), encValue);
 			}
 			
-			// MD5 sign the string with the secret.
+			// Sign the string with the secret.
 			string signature = jsConnect.Hash(sigStr.ToString() + secret, hash);
 			
 			if(setData) {
@@ -178,6 +176,20 @@ namespace Vanilla {
 			DateTime epoch = new DateTime(1970, 1, 1);
 			TimeSpan span = (DateTime.UtcNow - epoch);
 			return (int)span.TotalSeconds;
+		}
+
+		public static string UrlEncode(string s) {
+			System.Text.RegularExpressions.MatchEvaluator me = new System.Text.RegularExpressions.MatchEvaluator(jsConnect.StrUpper);
+
+			string result = HttpUtility.UrlEncode(s);
+			result = System.Text.RegularExpressions.Regex.Replace(result, "%[0-9a-f][0-9a-f]", me);
+			result = result.Replace("'", "%27");
+			result = result.Replace("!", "%21");
+			result = result.Replace("*", "%2A");
+			result = result.Replace("(", "%28");
+			result = result.Replace(")", "%29");
+
+			return result;
 		}
 	}
 }
