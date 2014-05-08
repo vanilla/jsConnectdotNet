@@ -9,7 +9,7 @@ using System.Collections.Specialized;
 
 namespace Vanilla {
 	/// <summary>
-	/// This object contains the client code for Vanilla jsConnect signle-sign-on.
+	/// This object contains the client code for Vanilla jsConnect single-sign-on.
 	/// Version 1.0.2
 	/// </summary>
 	public class jsConnect {
@@ -110,17 +110,18 @@ namespace Vanilla {
 			try {
 				System.Security.Cryptography.HashAlgorithm cryptHandler;
 
-				switch (method.ToLower()) {
-				case "":
-				case "md5":
-					cryptHandler = System.Security.Cryptography.MD5.Create();
-					break;
+				switch (method.ToLower()) {				
 				case "sha1":
 					cryptHandler = System.Security.Cryptography.SHA1.Create();
 					break;
 				case "sha256":
 					cryptHandler = System.Security.Cryptography.SHA256.Create();
 					break;
+				case "":
+				case "md5":
+				default:
+					cryptHandler = System.Security.Cryptography.MD5.Create();
+					break;	
 				
 				}
 
