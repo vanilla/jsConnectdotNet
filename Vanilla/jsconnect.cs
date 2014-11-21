@@ -10,7 +10,7 @@ using System.Collections.Specialized;
 namespace Vanilla {
 	/// <summary>
 	/// This object contains the client code for Vanilla jsConnect signle-sign-on.
-	/// Version 1.0.2
+	/// Version 1.0.3
 	/// </summary>
 	public class jsConnect {
 		public static bool Debug = false;
@@ -47,6 +47,7 @@ namespace Vanilla {
 						error = new SortedList();
 						error["name"] = user["name"];
 						error["photourl"] = user.Contains("photourl") ? user["photourl"] : "";
+						error["signedin"] = true;
 					} else {
 						error = new SortedList();
 						error["name"] = "";
@@ -108,7 +109,7 @@ namespace Vanilla {
 		public static string Hash(string password, string method) {
 			byte[] textBytes = System.Text.Encoding.Default.GetBytes(password);
 			try {
-				System.Security.Cryptography.HashAlgorithm cryptHandler;
+				System.Security.Cryptography.HashAlgorithm cryptHandler = null;
 
 				switch (method.ToLower()) {
 				case "":
@@ -121,7 +122,9 @@ namespace Vanilla {
 				case "sha256":
 					cryptHandler = System.Security.Cryptography.SHA256.Create();
 					break;
-				
+				default:
+					cryptHandler = System.Security.Cryptography.MD5.Create();
+					break;
 				}
 
 				byte[] hash = cryptHandler.ComputeHash(textBytes);
