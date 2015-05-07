@@ -112,16 +112,14 @@ namespace Vanilla {
 				System.Security.Cryptography.HashAlgorithm cryptHandler = null;
 
 				switch (method.ToLower()) {
-				case "":
-				case "md5":
-					cryptHandler = System.Security.Cryptography.MD5.Create();
-					break;
 				case "sha1":
 					cryptHandler = System.Security.Cryptography.SHA1.Create();
 					break;
 				case "sha256":
 					cryptHandler = System.Security.Cryptography.SHA256.Create();
 					break;
+				case "":
+				case "md5":
 				default:
 					cryptHandler = System.Security.Cryptography.MD5.Create();
 					break;
