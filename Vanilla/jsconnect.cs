@@ -155,7 +155,7 @@ namespace Vanilla {
 				if(sigStr.Length > 0)
 					sigStr.Append("&");
 				
-				string encValue = jsConnect.UrlEncode(data[key].ToString());
+				string encValue = jsConnect.UrlEncode(data[key] == null ? "" : data[key].ToString());
 				
 				sigStr.AppendFormat("{0}={1}", jsConnect.UrlEncode(key.ToLower()), encValue);
 			}
