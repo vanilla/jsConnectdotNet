@@ -1,1 +1,1 @@
-<%@ Application Inherits="jsConnectdotNet.Global" %>
+﻿<%@ Application Inherits="jsConnectdotNet.Global" %>
