@@ -12,8 +12,8 @@ namespace jsConnectdotNet.Controllers
             try
             {
                 // 1. Get your client ID and secret here. These must match those in your jsConnect settings.
-                string clientID = "jsConnectdotNet";
-                string secret = "sekrits";
+                string clientID = "123";
+                string secret = "123";
 
                 // 2. Grab the current user from your session management system or database here.
 
@@ -28,13 +28,13 @@ namespace jsConnectdotNet.Controllers
                 {
                     // CHANGE THESE FOUR LINES.
                     user["uniqueid"] = "123";
-                    user["name"] = "DaazKu";
-                    user["email"] = "alexandre.c@vanillaforums.com";
+                    user["name"] = "John ASP.NET";
+                    user["email"] = "john.asp.net@example.com";
                     user["photourl"] = "";
                 }
 
                 // 4. Generate the jsConnect string.
-                bool secure = true; // this should be true unless you are testing
+                bool secure = false; // this should be true unless you are testing
                 string hash = "sha256"; // values supported are md5, sha1, sha256
                 // Vanilla.jsConnect.Debug = true; // turn on debug to help troubleshoot some issues.
                 string js = Vanilla.jsConnect.GetJsConnectString(user, Request.QueryString, clientID, secret, secure, hash);
