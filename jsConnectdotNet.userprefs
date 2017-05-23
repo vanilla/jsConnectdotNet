@@ -1,0 +1,19 @@
+﻿<Properties StartupConfiguration="{C689B23E-237A-4C78-9477-D47B17010415}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Vanilla/jsconnect.cs">
+    <Files>
+      <File FileName="Demo/Controllers/SSOController.cs" Line="12" Column="1" />
+      <File FileName="Demo/Views/SSO/Index.cshtml" Line="1" Column="22" />
+      <File FileName="Global.asax" Line="1" Column="26" />
+      <File FileName="Global.asax.cs" Line="17" Column="50" />
+      <File FileName="Demo/Views/Web.config" Line="1" Column="1" />
+      <File FileName="Vanilla/jsconnect.cs" Line="23" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.jsConnectdotNet PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
