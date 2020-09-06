@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>Vanilla.JsConnect</RootNamespace>
+        <AssemblyName>jsConnect</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="jose-jwt" Version="2.5.0" />
+      <PackageReference Include="Json.Net" Version="1.0.23" />
+      <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
+    </ItemGroup>
+
+</Project>
