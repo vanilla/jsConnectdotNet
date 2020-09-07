@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Microsoft.IdentityModel.Logging;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Vanilla.JsConnect;
@@ -20,6 +22,13 @@ namespace Vanilla.JsConnectDotNet.Tests {
         [SetUp]
         public void Setup() {
             _jsc = new JsConnectV3();
+
+            IdentityModelEventSource.Logger.EventCommandExecuted += new EventHandler<EventCommandEventArgs>(
+                (
+                    (sender, args) => {
+                        var foo = "bar";
+                    })
+            );
         }
 
         [Test]
@@ -43,32 +52,33 @@ namespace Vanilla.JsConnectDotNet.Tests {
             _jsc.SetVersion((string) data["version"]);
             _jsc.SetTimestamp((int) data["timestamp"]);
 
-            var user = (JObject)data["user"];
+            var user = (JObject) data["user"];
             if (user.Count == 0) {
                 _jsc.SetGuest(true);
-            } else {
+            }
+            else {
                 foreach (var entry in user) {
                     _jsc.SetUserField(entry.Key, FromJToken(entry.Value));
                 }
             }
 
             // try {
-                var requestUri = new Uri("https://example.com?jwt=" + data[JsConnectV3.FIELD_JWT]);
-                var responseUrl = _jsc.GenerateResponseLocation(requestUri);
-                Assert.False(string.IsNullOrWhiteSpace(data["response"].ToString()));
-                // }
+            var requestUri = new Uri("https://example.com?jwt=" + data[JsConnectV3.FIELD_JWT]);
+            var responseUrl = _jsc.GenerateResponseLocation(requestUri);
+            Assert.False(string.IsNullOrWhiteSpace(data["response"].ToString()));
+            // }
 
 
-                // try {
-                //     URI requestUri = new URI("https://example.com?jwt=" + data.get(JsConnectV3.FIELD_JWT));
-                //     String responseUrl = jsc.generateResponseLocation(requestUri);
-                //     assertTrue(data.containsKey("response"));
-                //     assertJWTUrlsEqual((String) data.get("response"), responseUrl);
-                // } catch (TokenExpiredException ex) {
-                //     assertEquals("ExpiredException", data.get("exception"));
-                // } catch (SignatureVerificationException ex) {
-                //     assertEquals("SignatureInvalidException", data.get("exception"));
-                // }
+            // try {
+            //     URI requestUri = new URI("https://example.com?jwt=" + data.get(JsConnectV3.FIELD_JWT));
+            //     String responseUrl = jsc.generateResponseLocation(requestUri);
+            //     assertTrue(data.containsKey("response"));
+            //     assertJWTUrlsEqual((String) data.get("response"), responseUrl);
+            // } catch (TokenExpiredException ex) {
+            //     assertEquals("ExpiredException", data.get("exception"));
+            // } catch (SignatureVerificationException ex) {
+            //     assertEquals("SignatureInvalidException", data.get("exception"));
+            // }
         }
 
         private static object FromJToken(JToken value) {
@@ -86,15 +96,16 @@ namespace Vanilla.JsConnectDotNet.Tests {
                     return list;
                 case JTokenType.Object:
                     var dict = new Dictionary<string, object>();
-                    foreach (var entry in (JObject)value) {
+                    foreach (var entry in (JObject) value) {
                         dict[entry.Key] = FromJToken(entry.Value);
                     }
+
                     return dict;
                 default:
                     throw new Exception($"Unknown JSON type: {value.Type}");
             }
         }
-        
+
         public static IEnumerable<TestCaseData> ProvideTests() {
             var root = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../.."));
             var str = File.ReadAllText($"{root}/tests.json");
