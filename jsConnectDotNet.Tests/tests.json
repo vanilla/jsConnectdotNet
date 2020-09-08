@@ -1,6 +1,51 @@
 {
-    "bad-secret": {
-        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiZW1nQkJIdTRJZlg1WFItN0RMV2EifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.Nnkg89CQ8oPIZSAWIpz_kpMbLqEo6FXl7rM4rpuB_8I",
+    "01 basic": {
+        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiUjdCQkxPUWJvUlRzNnJ4U0VXZ3EifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.1G1KO5JTNOT652L08A3IrO7cYt_dCZekRA3ikEaiJIU",
+        "clientID": "foo",
+        "secret": "0123456789abcdef",
+        "version": "test:3",
+        "timestamp": 1577836800,
+        "user": {
+            "id": "id123",
+            "name": "frank",
+            "email": "frank@example.com",
+            "photo": "https://example.com/avatar.jpg",
+            "roles": [
+                1,
+                2
+            ]
+        },
+        "response": "https://example.com/redirect#jwt=eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1Ijp7ImlkIjoiaWQxMjMiLCJuYW1lIjoiZnJhbmsiLCJlbWFpbCI6ImZyYW5rQGV4YW1wbGUuY29tIiwicGhvdG8iOiJodHRwczpcL1wvZXhhbXBsZS5jb21cL2F2YXRhci5qcGciLCJyb2xlcyI6WzEsMl19LCJzdCI6eyJuIjoiUjdCQkxPUWJvUlRzNnJ4U0VXZ3EifSwidiI6InRlc3Q6MyIsImlhdCI6MTU3NzgzNjgwMCwiZXhwIjoxNTc3ODM3NDAwfQ.dZrVhI_EWmVUGsXd2SoD9jRVN_hhAZkBjih7UJwgieM"
+    },
+    "02 basic-guest": {
+        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiNkpiSWdNZm9pYnF6cGxwa1NjVUwifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.vee0Q4JE41EQUQUmCxEl0Mp1vufJJ7oKijs8HHmx_Ew",
+        "clientID": "foo",
+        "secret": "0123456789abcdef",
+        "version": "test:3",
+        "timestamp": 1577836800,
+        "user": {},
+        "response": "https://example.com/redirect#jwt=eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1Ijp7fSwic3QiOnsibiI6IjZKYklnTWZvaWJxenBscGtTY1VMIn0sInYiOiJ0ZXN0OjMiLCJpYXQiOjE1Nzc4MzY4MDAsImV4cCI6MTU3NzgzNzQwMH0.1kpo_SiFHEwgX8k-oC4Zq3FkMGBOG5nO0Y8bNvZpWoA"
+    },
+    "03 basic-state": {
+        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoidm9uTlZlT1djN2xQek53VG9tb0UiLCJ0IjoiXC9mb28ifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.rs-vp9-mOC4KQFsCfTe9bF1ZMxfQcIM2Y9nQSV24wG8",
+        "clientID": "foo",
+        "secret": "0123456789abcdef",
+        "version": "test:3",
+        "timestamp": 1577836800,
+        "user": {
+            "id": "id123",
+            "name": "frank",
+            "email": "frank@example.com",
+            "photo": "https://example.com/avatar.jpg",
+            "roles": [
+                1,
+                2
+            ]
+        },
+        "response": "https://example.com/redirect#jwt=eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1Ijp7ImlkIjoiaWQxMjMiLCJuYW1lIjoiZnJhbmsiLCJlbWFpbCI6ImZyYW5rQGV4YW1wbGUuY29tIiwicGhvdG8iOiJodHRwczpcL1wvZXhhbXBsZS5jb21cL2F2YXRhci5qcGciLCJyb2xlcyI6WzEsMl19LCJzdCI6eyJuIjoidm9uTlZlT1djN2xQek53VG9tb0UiLCJ0IjoiXC9mb28ifSwidiI6InRlc3Q6MyIsImlhdCI6MTU3NzgzNjgwMCwiZXhwIjoxNTc3ODM3NDAwfQ.ox9K0VcBtkNYBQZdjmvGcDKh7-xOPDhSL3FGgRbRHyg"
+    },
+    "04 bad-secret": {
+        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiSnpVTUxrQWw2RE90SElQWGpNdloifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.Y4Mi66K5su5CX4FQ5ETrvAFHxYACydMZx24ZjmhUri4",
         "clientID": "foo",
         "secret": "1234567890abcdef",
         "version": "test:3",
@@ -18,53 +63,8 @@
         "exception": "SignatureInvalidException",
         "message": "Signature verification failed"
     },
-    "basic": {
-        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiaWRSU0JGUTExaGJwMXJ2SDRRTmQifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.jpnUsjNSHn4ktDiXi0txV3bI6JWjFvuPAj-A3qLDspo",
-        "clientID": "foo",
-        "secret": "0123456789abcdef",
-        "version": "test:3",
-        "timestamp": 1577836800,
-        "user": {
-            "id": "id123",
-            "name": "frank",
-            "email": "frank@example.com",
-            "photo": "https://example.com/avatar.jpg",
-            "roles": [
-                1,
-                2
-            ]
-        },
-        "response": "https://example.com/redirect#jwt=eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1Ijp7ImlkIjoiaWQxMjMiLCJuYW1lIjoiZnJhbmsiLCJlbWFpbCI6ImZyYW5rQGV4YW1wbGUuY29tIiwicGhvdG8iOiJodHRwczpcL1wvZXhhbXBsZS5jb21cL2F2YXRhci5qcGciLCJyb2xlcyI6WzEsMl19LCJzdCI6eyJuIjoiaWRSU0JGUTExaGJwMXJ2SDRRTmQifSwidiI6InRlc3Q6MyIsImlhdCI6MTU3NzgzNjgwMCwiZXhwIjoxNTc3ODM3NDAwfQ.LIcxoswmouo2zqL5-bib7WzLG-0qHn3PP32V-hgtedA"
-    },
-    "basic-guest": {
-        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiQXlwZEpDRjJlUFZ3VWgwT3RCM1kifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.2y31KINK90UEJCH4vH8O1SwnyABvDfglXHL17nxYZL8",
-        "clientID": "foo",
-        "secret": "0123456789abcdef",
-        "version": "test:3",
-        "timestamp": 1577836800,
-        "user": {},
-        "response": "https://example.com/redirect#jwt=eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1Ijp7fSwic3QiOnsibiI6IkF5cGRKQ0YyZVBWd1VoME90QjNZIn0sInYiOiJ0ZXN0OjMiLCJpYXQiOjE1Nzc4MzY4MDAsImV4cCI6MTU3NzgzNzQwMH0.RDGbfU8vwO6xVmE-_LLatOW5bxqFkckhJscJ-pYpgD4"
-    },
-    "basic-state": {
-        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiYWZEdGtNLVd5T2RWMVFGTTVoNlQiLCJ0IjoiXC9mb28ifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.v__Gn6Vvl_vrbY5RfFPjT9f39iTGqFKgWCrejTbri-I",
-        "clientID": "foo",
-        "secret": "0123456789abcdef",
-        "version": "test:3",
-        "timestamp": 1577836800,
-        "user": {
-            "id": "id123",
-            "name": "frank",
-            "email": "frank@example.com",
-            "photo": "https://example.com/avatar.jpg",
-            "roles": [
-                1,
-                2
-            ]
-        },
-        "response": "https://example.com/redirect#jwt=eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1Ijp7ImlkIjoiaWQxMjMiLCJuYW1lIjoiZnJhbmsiLCJlbWFpbCI6ImZyYW5rQGV4YW1wbGUuY29tIiwicGhvdG8iOiJodHRwczpcL1wvZXhhbXBsZS5jb21cL2F2YXRhci5qcGciLCJyb2xlcyI6WzEsMl19LCJzdCI6eyJuIjoiYWZEdGtNLVd5T2RWMVFGTTVoNlQiLCJ0IjoiXC9mb28ifSwidiI6InRlc3Q6MyIsImlhdCI6MTU3NzgzNjgwMCwiZXhwIjoxNTc3ODM3NDAwfQ.FoggRdC3715pGm1bYaUApsQ-UczZ9lVpf8gCssrXKJU"
-    },
-    "expired-token": {
-        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiakRfYjJjUGticHdkeV9INzVtcXQifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.gLw2ZR4sWE0uiuGkeiiX4TkF7J_zHOpTjSnd_tQjPhY",
+    "05 expired-token": {
+        "jwt": "eyJraWQiOiJmb28iLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdCI6eyJuIjoiZlhaYzJaX1oyTV8zNDJWTmFIWlIifSwicnVybCI6Imh0dHBzOlwvXC9leGFtcGxlLmNvbVwvcmVkaXJlY3QiLCJ2IjoidGVzdDozIiwiaWF0IjoxNTc3ODM2ODAwLCJleHAiOjE1Nzc4Mzc0MDB9.Jh2WYyp_5KZPc8IQJLsdrGryAvgLn52OEEDcCLhs5ow",
         "clientID": "foo",
         "secret": "0123456789abcdef",
         "version": "test:3",

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using Microsoft.IdentityModel.Logging;
+using System.Web;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Vanilla.JsConnect;
@@ -12,25 +11,20 @@ using Vanilla.JsConnect;
 namespace Vanilla.JsConnectDotNet.Tests {
     public class JsConnectV3Test {
         private JsConnectV3 _jsc;
-        private static string _root;
-
-        [OneTimeSetUp]
-        public static void OneTimeSetUp() {
-            _root = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../.."));
-        }
+        
+        /// <summary>
+        /// The root directory to help load test data.
+        /// </summary>
+        public static string RootDirectory => Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../.."));
 
         [SetUp]
         public void Setup() {
             _jsc = new JsConnectV3();
-
-            IdentityModelEventSource.Logger.EventCommandExecuted += new EventHandler<EventCommandEventArgs>(
-                (
-                    (sender, args) => {
-                        var foo = "bar";
-                    })
-            );
         }
 
+        /// <summary>
+        /// Test basic object access.
+        /// </summary>
         [Test]
         public void TestGettersSetters() {
             Assert.AreEqual("123", _jsc.SetUniqueID("123").GetUniqueID());
@@ -41,11 +35,16 @@ namespace Vanilla.JsConnectDotNet.Tests {
             var roles = new List<object>() {1, 2, 3};
             Assert.AreEqual(roles, _jsc.SetRoles(roles).GetRoles());
 
-            _jsc.SetSigningCredentials("id", "secret");
+            _jsc.SetSigningCredentials("id", "01234567890abcdef");
             Assert.AreEqual("id", _jsc.GetSigningClientID());
-            Assert.AreEqual("secret", _jsc.GetSigningSecret());
+            Assert.AreEqual("01234567890abcdef", _jsc.GetSigningSecret());
         }
 
+        /// <summary>
+        /// Test a single test.json entry.
+        /// </summary>
+        /// <param name="name">The name of the test.</param>
+        /// <param name="data">The test data.</param>
         [Test, TestCaseSource("ProvideTests")]
         public void TestData(string name, JObject data) {
             _jsc.SetSigningCredentials((string) data["clientID"], (string) data["secret"]);
@@ -55,60 +54,64 @@ namespace Vanilla.JsConnectDotNet.Tests {
             var user = (JObject) data["user"];
             if (user.Count == 0) {
                 _jsc.SetGuest(true);
-            }
-            else {
+            } else {
                 foreach (var entry in user) {
-                    _jsc.SetUserField(entry.Key, FromJToken(entry.Value));
+                    _jsc.SetUserField(entry.Key, JsConnectV3.FromJToken(entry.Value));
                 }
             }
 
-            // try {
-            var requestUri = new Uri("https://example.com?jwt=" + data[JsConnectV3.FIELD_JWT]);
-            var responseUrl = _jsc.GenerateResponseLocation(requestUri);
-            Assert.False(string.IsNullOrWhiteSpace(data["response"].ToString()));
-            // }
-
-
-            // try {
-            //     URI requestUri = new URI("https://example.com?jwt=" + data.get(JsConnectV3.FIELD_JWT));
-            //     String responseUrl = jsc.generateResponseLocation(requestUri);
-            //     assertTrue(data.containsKey("response"));
-            //     assertJWTUrlsEqual((String) data.get("response"), responseUrl);
-            // } catch (TokenExpiredException ex) {
-            //     assertEquals("ExpiredException", data.get("exception"));
-            // } catch (SignatureVerificationException ex) {
-            //     assertEquals("SignatureInvalidException", data.get("exception"));
-            // }
-        }
-
-        private static object FromJToken(JToken value) {
-            switch (value.Type) {
-                case JTokenType.Boolean:
-                    return (bool) value;
-                case JTokenType.Integer:
-                    return (int) value;
-                case JTokenType.Null:
-                    return null;
-                case JTokenType.String:
-                    return (string) value;
-                case JTokenType.Array:
-                    var list = value.Select(o => FromJToken(o)).ToList();
-                    return list;
-                case JTokenType.Object:
-                    var dict = new Dictionary<string, object>();
-                    foreach (var entry in (JObject) value) {
-                        dict[entry.Key] = FromJToken(entry.Value);
-                    }
-
-                    return dict;
-                default:
-                    throw new Exception($"Unknown JSON type: {value.Type}");
+            try {
+                var requestUri = new Uri("https://example.com?jwt=" + data[JsConnectV3.FIELD_JWT]);
+                var responseUrl = _jsc.GenerateResponseLocation(requestUri);
+                Assert.False(string.IsNullOrWhiteSpace(data["response"].ToString()));
+                AssertJWTUrlsAreEqual(data["response"].ToString(), responseUrl);
+            } catch (SignatureInvalidException ex) {
+                Assert.AreEqual("SignatureInvalidException", (data["exception"] ?? "").ToString(),
+                    "SignatureInvalidException not expected.");
+            } catch (ExpiredException ex) {
+                Assert.AreEqual("ExpiredException", (data["exception"] ?? "").ToString(),
+                    "ExpiredException not expected.");
             }
         }
 
+        /// <summary>
+        /// Assert that a jsConnect response URLs is correct.
+        /// </summary>
+        /// <param name="expected">The expected URL</param>
+        /// <param name="actual">The actual URL</param>
+        private void AssertJWTUrlsAreEqual(string expected, string actual) {
+            var expectedUri = new Uri(expected);
+            var actualUri = new Uri(actual);
+
+            Assert.AreEqual(expectedUri.Scheme, actualUri.Scheme);
+            Assert.AreEqual(expectedUri.Host, actualUri.Host);
+            Assert.AreEqual(expectedUri.AbsolutePath, actualUri.AbsolutePath);
+
+            var expectedQuery = HttpUtility.ParseQueryString(expectedUri.Fragment.TrimStart('#'));
+            var actualQuery = HttpUtility.ParseQueryString(actualUri.Fragment.TrimStart('#'));
+            AssertJWTData(expectedQuery[JsConnectV3.FIELD_JWT], actualQuery[JsConnectV3.FIELD_JWT]);
+        }
+
+        /// <summary>
+        /// Assert that a JWT string is correct.
+        /// </summary>
+        /// <param name="expected">The expected JWT string</param>
+        /// <param name="actual">The actual JWT string.</param>
+        private void AssertJWTData(string? expected, string? actual) {
+            Assert.NotNull(expected, "The expected jwt parameter was missing.");
+            Assert.NotNull(actual, "The actual jwt parameter was missing.");
+
+            var expectedDecoded = _jsc.JwtDecode(expected);
+            var actualDecoded = _jsc.JwtDecode(actual);
+            Assert.AreEqual(expectedDecoded, actualDecoded);
+        }
+
+        /// <summary>
+        /// Provide tests from the tests.json file.
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<TestCaseData> ProvideTests() {
-            var root = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../.."));
-            var str = File.ReadAllText($"{root}/tests.json");
+            var str = File.ReadAllText($"{RootDirectory}/tests.json");
             var json = JObject.Parse(str);
 
             foreach (var o in json) {
