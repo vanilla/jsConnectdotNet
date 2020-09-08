@@ -6,7 +6,7 @@ mono:
 
 install:
   - nuget restore jsConnectDotNet.sln
-  - nuget install NUnit.Console -Version 3.15.1 -OutputDirectory testrunner
+  - nuget install NUnit.Console -Version 3.6.0 -OutputDirectory testrunner
 script:
   - msbuild /p:Configuration=Release jsConnectDotNet.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.15.1/tools/nunit3-console.exe "./jsConnectDotNet.Tests/bin/Release/netcoreapp3.1/jsConnectDotNet.Tests.dll"
+  - mono ./testrunner/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe "./jsConnectDotNet.Tests/bin/Release/netcoreapp3.1/jsConnectDotNet.Tests.dll"
