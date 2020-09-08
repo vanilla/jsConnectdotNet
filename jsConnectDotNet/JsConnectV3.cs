@@ -238,12 +238,16 @@ namespace Vanilla.JsConnect {
         /// </summary>
         /// <returns></returns>
         protected static IJwtAlgorithm CreateAlgorithm(string algorithm) {
-            return algorithm switch {
-                ALG_HS256 => new HMACSHA256Algorithm(),
-                ALG_HS384 => new HMACSHA384Algorithm(),
-                ALG_HS512 => new HMACSHA512Algorithm(),
-                _ => throw new InvalidValueException("Unsupported algorithm: " + algorithm)
-            };
+            switch(algorithm) {
+                case ALG_HS256:
+                    return new HMACSHA256Algorithm();
+                case ALG_HS384:
+                    return new HMACSHA384Algorithm();
+                case ALG_HS512:
+                    return new HMACSHA512Algorithm();
+                default:
+                    throw new InvalidValueException("Unsupported algorithm: " + algorithm);
+            }
         }
 
         /// <summary>

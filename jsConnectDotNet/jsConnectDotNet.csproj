@@ -1,9 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
         <RootNamespace>Vanilla.JsConnect</RootNamespace>
         <AssemblyName>jsConnect</AssemblyName>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>3.0.0</PackageVersion>
+        <Title>jsConnect Client Library</Title>
+        <Authors>Vanilla Forums Inc.</Authors>
+        <Copyright>Copyright 2009-2020 Vanilla Forums Inc.</Copyright>
+        <PackageProjectUrl>https://github.com/vanilla/jsConnectdotNet</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/vanilla/jsConnectdotNet/blob/master/LICENSE.md</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/vanilla/jsConnectdotNet</RepositoryUrl>
+        <PackageTags>SSO, JWT</PackageTags>
+        <TargetFrameworks>netstandard2.1;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>

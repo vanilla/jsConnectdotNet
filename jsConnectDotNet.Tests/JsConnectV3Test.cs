@@ -65,10 +65,10 @@ namespace Vanilla.JsConnectDotNet.Tests {
                 var responseUrl = _jsc.GenerateResponseLocation(requestUri);
                 Assert.False(string.IsNullOrWhiteSpace(data["response"].ToString()));
                 AssertJWTUrlsAreEqual(data["response"].ToString(), responseUrl);
-            } catch (SignatureInvalidException ex) {
+            } catch (SignatureInvalidException) {
                 Assert.AreEqual("SignatureInvalidException", (data["exception"] ?? "").ToString(),
                     "SignatureInvalidException not expected.");
-            } catch (ExpiredException ex) {
+            } catch (ExpiredException) {
                 Assert.AreEqual("ExpiredException", (data["exception"] ?? "").ToString(),
                     "ExpiredException not expected.");
             }
@@ -97,7 +97,7 @@ namespace Vanilla.JsConnectDotNet.Tests {
         /// </summary>
         /// <param name="expected">The expected JWT string</param>
         /// <param name="actual">The actual JWT string.</param>
-        private void AssertJWTData(string? expected, string? actual) {
+        private void AssertJWTData(string expected, string actual) {
             Assert.NotNull(expected, "The expected jwt parameter was missing.");
             Assert.NotNull(actual, "The actual jwt parameter was missing.");
 
