@@ -6,7 +6,7 @@
 
         <RootNamespace>Vanilla.JsConnectDotNet.Tests</RootNamespace>
 
-        <TargetFrameworks>netstandard2.1;netcoreapp3.1</TargetFrameworks>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
