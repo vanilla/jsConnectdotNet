@@ -12,13 +12,14 @@
         <PackageLicenseUrl>https://github.com/vanilla/jsConnectdotNet/blob/master/LICENSE.md</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/vanilla/jsConnectdotNet</RepositoryUrl>
         <PackageTags>SSO, JWT</PackageTags>
-        <TargetFrameworks>netstandard2.1;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+        <TargetFramework>net40</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Json.Net" Version="1.0.23" />
-      <PackageReference Include="JWT" Version="7.2.1" />
-      <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+      <PackageReference Include="JWT" Version="7.3.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="System.Web" />
+    </ItemGroup>
 </Project>

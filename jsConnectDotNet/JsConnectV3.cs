@@ -89,7 +89,11 @@ namespace Vanilla.JsConnect {
         /// <param name="key">The key on the user.</param>
         /// <returns>Returns the value of the user field or null.</returns>
         public object GetUserField(string key) {
-            return this._user.GetValueOrDefault(key, null);
+            if (this._user.ContainsKey(key)) {
+                return this._user[key];
+            } else {
+                return null;
+            }
         }
 
         /// <summary>
@@ -305,8 +309,8 @@ namespace Vanilla.JsConnect {
                     case JTokenType.Object:
                         if (value is JObject jobject) {
                             var dict = new Dictionary<string, object>();
-                            foreach (var (key, jToken) in jobject) {
-                                dict[key] = FromJToken(jToken);
+                            foreach (var jItem in jobject) {
+                                dict[jItem.Key] = FromJToken(jItem.Value);
                             }
 
                             return dict;
@@ -344,7 +348,15 @@ namespace Vanilla.JsConnect {
             /// </summary>
             /// <returns></returns>
             public DateTimeOffset GetNow() {
-                return _now <= 0 ? DateTimeOffset.UtcNow : DateTimeOffset.FromUnixTimeSeconds(_now);
+                if (_now <= 0) {
+                    return DateTimeOffset.UtcNow;
+                } else {
+                    var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+                    epoch = epoch.AddSeconds(_now);
+                    return epoch;
+                }
+
+                //return _now <= 0 ? DateTimeOffset.UtcNow : DateTimeOffset.FromUnixTimeSeconds(_now);
             }
         }
 
@@ -430,7 +442,15 @@ namespace Vanilla.JsConnect {
         /// </summary>
         /// <returns></returns>
         protected long GetTimestamp() {
-            return _timestamp == 0 ? DateTimeOffset.UtcNow.ToUnixTimeSeconds() : _timestamp;
+            if (_timestamp == 0) {
+                var epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
+                var span = DateTimeOffset.UtcNow - epoch;
+                var r = span.TotalSeconds;
+                return (long)r;
+            } else {
+                return _timestamp;
+            }
+            //return _timestamp == 0 ? DateTimeOffset.UtcNow.ToUnixTimeSeconds() : _timestamp;
         }
 
         /// <summary>
